@@ -265,18 +265,16 @@ class Country {
         self.flag = flag
         self.char = flag.first!
         self.name = name
-        
     }
 }
 
 // GPT: iterate through all keys and values in a dictionary and initialize an array of objects that contain the key and the value
-func initCountries(names: [String:String]) -> [Country] {
+func initCountries() -> [Country] {
     var countryArray: [Country] = []
-    for (flag, name) in names {
+    for (flag, name) in countryNames {
         let object = Country(flag: flag, name: name)
         countryArray.append(object)
     }
     
     return countryArray
 }
-

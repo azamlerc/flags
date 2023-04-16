@@ -75,6 +75,10 @@ func filterAlphanumeric(_ string: String) -> String {
     return String(string.filter { !($0.isLetter || $0.isNumber) })
 }
 
+func link(href: String, text: String) -> String {
+    return "<a href=\"\(href)\">\(text)</a>"
+}
+
 func tooltip(text: String, tip: String) -> String {
     return "<div class=\"tooltip\">\(text)<span class=\"tooltiptext\">\(tip)</span></div>"
 }

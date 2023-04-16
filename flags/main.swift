@@ -7,11 +7,8 @@
 
 import Foundation
 
-let minCountryCount = 0
-let minFileCount = 3
-
 var files = initFiles()
-var countries = initCountries(names: countryNames)
+var countries = initCountries()
 var grandTotal = 0
 
 // GPT: write a program that given an array of the names of files in a folder, and an array of characters, calculates how many times each character occurs in the contents of each file.
@@ -32,10 +29,10 @@ count(countries: countries, in: files)
 
 countries = countries
     .sorted { $0.count > $1.count }
-    .filter { $0.count >= minCountryCount }
+    .filter { $0.count >= 0 }
 files = files
     .sorted { $0.count > $1.count }
-    .filter { $0.count >= minFileCount }
+    .filter { $0.count >= 3 }
 
 var header = ["", ""]
 var totals = ["", String(grandTotal)]
@@ -44,8 +41,7 @@ totals.append(contentsOf: countries.map({ String($0.count) }))
 var table = [header, totals]
 
 for file in files {
-    let link = "<a href=\"\(file.name)\">\(file.title)</a>"
-    var row = [link, String(file.count)]
+    var row = [link(href: file.name, text: file.title), String(file.count)]
     row.append(contentsOf: countries.map({
         let count = file.countryCounts[$0.flag]!
         return count > 0 ? String(count) : "–"

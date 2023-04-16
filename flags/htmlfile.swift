@@ -84,11 +84,11 @@ func tooltip(text: String, tip: String) -> String {
 }
 
 // GPT: take a two dimensional array of strings and output an HTML table
-func htmlTable(_ data: [[String]]) -> String {
+func html(table: [[String]]) -> String {
     var html = "<table class=\"flags\">\n"
     var tag = "th"
     
-    for row in data {
+    for row in table {
         html += "<tr>\n"
         for cell in row {
             html += "<\(tag)>\(cell)</\(tag)>\n"
@@ -110,8 +110,8 @@ func write(string: String, to filePath: String) {
     }
 }
 
-func save(data: [[String]]) {
-    let contents = htmlTop + htmlTable(data) + htmlBottom
+func save(table: [[String]]) {
+    let contents = htmlTop + html(table: table) + htmlBottom
     write(string: contents, to: folderPath + outputFile)
 }
 

@@ -34,19 +34,22 @@ files = files
     .sorted { $0.count > $1.count }
     .filter { $0.count >= 3 }
 
-var header = ["", ""]
-var totals = ["", String(grandTotal)]
-header.append(contentsOf: countries.map({ tooltip(text: $0.flag, tip: $0.name) }))
-totals.append(contentsOf: countries.map({ String($0.count) }))
-var table = [header, totals]
+func makeTable(countries: [Country], in files: [HTMLFile]) -> [[String]] {
+    var header = ["", ""]
+    var totals = ["", String(grandTotal)]
+    header.append(contentsOf: countries.map({ tooltip(text: $0.flag, tip: $0.name) }))
+    totals.append(contentsOf: countries.map({ String($0.count) }))
+    var table = [header, totals]
 
-for file in files {
-    var row = [link(href: file.name, text: file.title), String(file.count)]
-    row.append(contentsOf: countries.map({
-        let count = file.countryCounts[$0.flag]!
-        return count > 0 ? String(count) : "–"
-    }))
-    table.append(row)
+    for file in files {
+        var row = [link(href: file.name, text: file.title), String(file.count)]
+        row.append(contentsOf: countries.map({
+            let count = file.countryCounts[$0.flag]!
+            return count > 0 ? String(count) : "–"
+        }))
+        table.append(row)
+    }
+    return table
 }
 
-save(data: table)
+save(table: makeTable(countries: countries, in: files))

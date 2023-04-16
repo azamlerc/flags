@@ -7,6 +7,7 @@
 
 import Foundation
 
+// GPT: Make a list of all flag emojis and their names. Return the result as a dictionary literal where the key is the emoji and the value is the name.
 let countryNames = [
     "🇦🇩": "Andorra",
     "🇦🇪": "United Arab Emirates",

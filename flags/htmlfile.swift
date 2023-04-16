@@ -29,6 +29,18 @@ class HTMLFile {
     }
 }
 
+func initFiles() -> [HTMLFile] {
+    let files = getHTMLFileNames(in: folderPath).map { HTMLFile(folder: folderPath, name: $0) }
+    for file in files {
+        if let contents = try? String(contentsOfFile: file.path) {
+            file.title = getTitle(html: contents)
+            file.contents = filterAlphanumeric(contents)
+        }
+    }
+    
+    return files
+}
+
 // GPT: given the path to a folder, return the names of all the html files in the folder
 func getHTMLFileNames(in folderPath: String) -> [String] {
     let fileManager = FileManager.default
@@ -36,12 +48,8 @@ func getHTMLFileNames(in folderPath: String) -> [String] {
     
     do {
         let folderContents = try fileManager.contentsOfDirectory(atPath: folderPath)
-        
         for fileName in folderContents {
-            if skippedFiles.contains(fileName) {
-                continue
-            }
-            if fileName.hasSuffix(".html") {
+            if !skippedFiles.contains(fileName) && fileName.hasSuffix(".html") {
                 fileNames.append(fileName)
             }
         }
@@ -65,18 +73,6 @@ func getTitle(html: String) -> String {
 // GPT: filter alphanumeric characters out of a string
 func filterAlphanumeric(_ string: String) -> String {
     return String(string.filter { !($0.isLetter || $0.isNumber) })
-}
-
-func initFiles() -> [HTMLFile] {
-    let files = getHTMLFileNames(in: folderPath).map { HTMLFile(folder: folderPath, name: $0) }
-    for file in files {
-        if let contents = try? String(contentsOfFile: file.path) {
-            file.title = getTitle(html: contents)
-            file.contents = filterAlphanumeric(contents)
-        }
-    }
-    
-    return files
 }
 
 func tooltip(text: String, tip: String) -> String {
